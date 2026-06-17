@@ -4,12 +4,101 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fluffiest-grass</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>TSL OOP Starter</title>
   </head>
   <body>
     <main>
       <canvas></canvas>
+
+      <!-- Ambient CRT look, part of the render itself — lives in base.css -->
+      <div class="vignette"></div>
+
+      <!--
+        UI-ROOT — demo chrome only. main.ts never imports this and doesn't
+        know it exists. To rip it out entirely: delete this whole <div>,
+        delete the "/src/ui.ts" script tag below, and delete src/ui.ts +
+        src/ui.css. The 3D engine keeps running with zero changes.
+      -->
+      <div id="ui-root" class="ui-layer">
+        <header>
+          <div class="brand">
+            <div class="logo-mark">M</div>
+            <h1>TSL.OOP</h1>
+          </div>
+
+          <!-- Live readout fed by the engine over the ui-bridge -->
+          <div class="hud" id="hud">
+            <span class="hud-dot"></span>
+            <span id="hud-fps">60</span><span class="hud-unit">fps</span>
+          </div>
+
+          <div class="badge">v1.0.0 Starter</div>
+        </header>
+
+        <div class="center-container">
+          <div class="panel">
+            <div class="panel-tag">Boilerplate Redefined</div>
+            <div class="panel-title">Clean Shader Pipelines</div>
+            <div class="panel-description">
+              Stop writing redundant initialization loops. Pack modular TSL node
+              blocks directly inside scalable, reusable components instantly.
+            </div>
+            <div class="action-group">
+              <a class="btn btn-primary" id="mutate-trigger">Mutate Geometry</a>
+              <a
+                class="btn btn-secondary"
+                href="https://github.com/Manishbhai9350/Orchestra-TSL"
+                target="_blank"
+                rel="noopener"
+                >Explore Codebase</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <footer>
+          <div class="author-credit">
+            Engine engineered by
+            <a target="_blank" href="https://portfolio-811p.onrender.com" class="author-name">Manish Dhaka</a>
+          </div>
+          <div class="social-links">
+            <a
+              href="https://github.com/Manishbhai9350"
+              target="_blank"
+              rel="noopener"
+              >gh</a
+            >
+            <a href="https://x.com/dev_manish93" target="_blank" rel="noopener"
+              >x</a
+            >
+            <a
+              href="https://www.linkedin.com/in/manish-dhaka-b01b1828b/"
+              target="_blank"
+              rel="noopener"
+              >li</a
+            >
+            <a
+              href="https://www.instagram.com/dev_manish_js/"
+              target="_blank"
+              rel="noopener"
+              >ig</a
+            >
+          </div>
+        </footer>
+      </div>
+      <!-- /UI-ROOT -->
     </main>
+
     <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/src/ui/ui.ts"></script>
+    <!-- ^ UI: delete this line too when removing the starter chrome -->
   </body>
 </html>

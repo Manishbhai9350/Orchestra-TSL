@@ -1,52 +1,12 @@
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
+/* ───────────────────────────────────────────────────────────────
+   Starter UI chrome. Safe to delete in full:
+   1. remove #ui-root from index.html
+   2. remove the <script src="/src/ui.ts"> tag
+   3. delete this file and src/ui.ts
+   main.ts never imports this file, so the 3D engine is unaffected.
+   ─────────────────────────────────────────────────────────────── */
 
-
-/* Making Sure Debug UI Is Always Stay Visible; */
-.tp-dfwv {
-  z-index: 99999!important;
-}
-
-html,
-body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-main {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-
-canvas {
-  width: 100vw;
-  height: 100vh;
-  z-index: 10;
-}
-
-/* Ambient CRT Overlay Vignette */
-.vignette {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle at center,
-    transparent 20%,
-    rgba(5, 5, 8, 0.6) 80%
-  );
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* Global UI Wrapper */
-.ui-layer {
+#ui-root {
   position: relative;
   width: 100%;
   height: 100%;
@@ -55,28 +15,34 @@ canvas {
   flex-direction: column;
   justify-content: space-between;
   padding: 30px;
+  font-family: "Space Grotesk", system-ui, sans-serif;
 }
 
-/* Minimal Top Navigation Header */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  gap: 16px;
 }
 .brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 .logo-mark {
-  width: 100%;
-  height: 100%;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
-  box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+  box-shadow: 0 0 14px rgba(0, 242, 254, 0.45);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #050508;
 }
 h1 {
   font-size: 0.85rem;
@@ -90,12 +56,44 @@ h1 {
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 4px 10px;
   border-radius: 20px;
+  font-family: "JetBrains Mono", monospace;
   font-size: 0.7rem;
   color: #00f2fe;
   letter-spacing: 0.02em;
 }
 
-/* SaaS-Style Centered Control Panel */
+/* Live engine readout — main.ts emits "tick" over the ui-bridge,
+   ui.ts writes the fps value into #hud-fps. This is the "talking". */
+.hud {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.02em;
+}
+.hud-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00f2fe;
+  box-shadow: 0 0 8px rgba(0, 242, 254, 0.8);
+  animation: hud-pulse 1.6s ease-in-out infinite;
+}
+.hud-unit {
+  opacity: 0.5;
+}
+@keyframes hud-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 .center-container {
   display: flex;
   justify-content: center;
@@ -115,7 +113,6 @@ h1 {
   box-shadow:
     0 30px 60px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  transform: translateY(0);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .panel:hover {
@@ -123,6 +120,7 @@ h1 {
   border-color: rgba(255, 255, 255, 0.12);
 }
 .panel-tag {
+  font-family: "JetBrains Mono", monospace;
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
@@ -145,7 +143,6 @@ h1 {
   margin-bottom: 30px;
 }
 
-/* Premium SaaS Interactive Elements */
 .action-group {
   display: flex;
   flex-direction: column;
@@ -172,6 +169,11 @@ h1 {
   background: #e4e4e7;
   transform: scale(1.01);
 }
+/* Flashes when the engine actually receives the click — see ui.ts */
+.btn-primary.is-active {
+  background: #00f2fe;
+  box-shadow: 0 0 24px rgba(0, 242, 254, 0.6);
+}
 .btn-secondary {
   background: rgba(255, 255, 255, 0.03);
   color: #ffffff;
@@ -182,13 +184,13 @@ h1 {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Minimalist Footer Credits */
 footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   font-size: 11px;
+  font-family: "JetBrains Mono", monospace;
 }
 .author-credit {
   color: rgba(255, 255, 255, 0.35);
@@ -215,7 +217,7 @@ footer {
   color: #ffffff;
 }
 
-/* Tweakpane Layout Integration Override */
+/* Tweakpane stays positioned consistently even if #ui-root is removed */
 .tp-dfwv {
   top: 30px !important;
   right: 30px !important;

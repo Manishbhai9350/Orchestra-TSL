@@ -46,7 +46,10 @@ export class Debug {
     this.enabled = import.meta.env.DEV;
     if (!this.enabled) return;
 
-    this.pane = new Pane({ title: "Debug", expanded: true });
+    this.pane = new Pane({
+      title: "TSL Debug",
+      expanded: true,
+    });
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "h") this.toggle();
