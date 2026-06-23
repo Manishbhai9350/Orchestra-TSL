@@ -3,9 +3,7 @@ import * as THREE from "three/webgpu";
 
 // ── types ─────────────────────────────────────────────────────────────────────
 
-type Bindable = Record<string, unknown>;
-
-interface DebugBinding<T extends Bindable> {
+interface DebugBinding<T extends Object> {
   folder: string;
   object: T;
   key: keyof T & string;
@@ -26,7 +24,7 @@ interface DebugColor {
   onChange: (color: THREE.Color) => void;
 }
 
-interface DebugMonitor<T extends Bindable> {
+interface DebugMonitor<T extends Object> {
   folder: string;
   object: T;
   key: keyof T & string;
@@ -70,7 +68,7 @@ export class Debug {
     return folder;
   }
 
-  add<T extends Bindable>({
+  add<T extends Object>({
     folder,
     object,
     key,
@@ -89,7 +87,7 @@ export class Debug {
     return this;
   }
 
-  monitor<T extends Bindable>({
+  monitor<T extends Object>({
     folder,
     object,
     key,
