@@ -18,6 +18,7 @@ import {
 import CustomShaderMaterial from "three-custom-shader-material/vanilla";
 import vertexShader from '../shaders/water2/vertex.glsl'
 import fragmentShader from '../shaders/water2/fragment.glsl'
+import { Debug } from "../utils/debug";
 
 interface WaveUniforms {
   uTime: Uniform<number>;
@@ -34,6 +35,8 @@ export class Wave {
   private scene: Scene;
   private baseMat!: CustomShaderMaterial<typeof MeshStandardMaterial>;
   private uniforms!: WaveUniforms;
+  private spot!: SpotLight;
+  private debug!: Debug;
   constructor(scene: Scene) {
     this.scene = scene;
 
@@ -51,13 +54,13 @@ export class Wave {
       uShallowColor: { value: new Color(0.1, 0.07, 0.04) },
       uGlintColor: { value: new Color(0.8, 0.5, 0.2) },
     };
-    const baseGeo = new PlaneGeometry(50, 70, 100, 200);
+    const baseGeo = new PlaneGeometry(50, 70, 150, 150);
     this.baseMat = new CustomShaderMaterial({
       baseMaterial: MeshStandardMaterial,
       color: 0x000000,
-      roughness: 0.1,
+      roughness: .57,
       metalness: 0,
-      //   wireframe: true,
+      // wireframe: true,
       vertexShader,
       fragmentShader,
       uniforms: this.uniforms,
@@ -76,23 +79,64 @@ export class Wave {
       new MeshBasicMaterial({ color: 0xff4323 }),
     );
 
-    debug.position.set(0, 1, 40);
+    debug.position.set(0, 4, 40);
 
-    const point = new PointLight("orange", 10000);
+    const point = new PointLight("orange", 500,30,2);
 
-    point.position.set(-7, 3, 20);
+    point.position.set(0, 7, 30);
 
     this.scene.add(debug, point);
 
-    const spot = new SpotLight(0xffffff, 200, 1000, .6, 0.1, 0.3);
+    this.spot = new SpotLight(0xffffff, 20, 2000, .1, 1, 0.3);
 
-    this.scene.add(new AmbientLight(0xffffff, 100));
+    this.spot.position.set(-2, 3, -40);
+    this.spot.target = debug;
+    const spotHelp = new SpotLightHelper(this.spot, "yellow");
 
-    spot.position.set(-2, 3, 0);
-    spot.target = debug;
-    const spotHelp = new SpotLightHelper(spot, "yellow");
+    this.scene.add(this.spot, spotHelp);
 
-    this.scene.add(spot, spotHelp);
+    this.addDebug();
+  }
+
+  addDebug(){
+    this.debug = Debug.getInstance();
+
+    this.debug.add({
+      folder:"Light",
+      object: this.spot,
+      key:'intensity',
+      options:{
+        min:0,
+        max:1000,
+        step:10
+      }
+    })
+
+    console.log(this.baseMat)
+
+
+    this.debug.add({
+      folder:"Wave",
+      object: this.baseMat,
+      key:'roughness',
+      options:{
+        min:0,
+        max:1,
+        step:.001
+      }
+    })
+    this.debug.add({
+      folder:"Wave",
+      object: this.baseMat,
+      key:'metalness',
+      options:{
+        min:0,
+        max:1,
+        step:.001
+      }
+    })
+
+
   }
 
   update(dt: number) {

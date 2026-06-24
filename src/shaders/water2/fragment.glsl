@@ -8,7 +8,6 @@ varying vec2 vUv;
 
 
 void main() {
-    csm_FragNormal = calcNormal(vUv);
-
-//   csm_FragColor = vec4(calcNormal(vUv) * 0.5 + 0.5, 1.0);
+    // csm_FragNormal = -calcNormal(vUv);
+    // csm_FragColor = vec4(vUv,0.0,1.0);
 }

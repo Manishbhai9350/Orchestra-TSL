@@ -10,6 +10,6 @@ void main() {
     vUv = uv * 30.0;
 
     float h = waveY(vUv.x, vUv.y);
-    csm_Position.z += h * 10.0;
+    csm_Position.z += h;
     csm_Normal = calcNormal(vUv);
 }
