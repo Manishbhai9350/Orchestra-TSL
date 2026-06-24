@@ -19,6 +19,7 @@ import CustomShaderMaterial from "three-custom-shader-material/vanilla";
 import vertexShader from '../shaders/water2/vertex.glsl'
 import fragmentShader from '../shaders/water2/fragment.glsl'
 import { Debug } from "../utils/debug";
+import { Mirror } from "./reflector";
 
 interface WaveUniforms {
   uTime: Uniform<number>;
@@ -37,6 +38,7 @@ export class Wave {
   private uniforms!: WaveUniforms;
   private spot!: SpotLight;
   private debug!: Debug;
+  private mirror!: Mirror;
   constructor(scene: Scene) {
     this.scene = scene;
 
@@ -95,6 +97,8 @@ export class Wave {
 
     this.scene.add(this.spot, spotHelp);
 
+    this.mirror = new Mirror(this.scene);
+
     this.addDebug();
   }
 
@@ -141,5 +145,6 @@ export class Wave {
 
   update(dt: number) {
     this.uniforms.uTime.value += dt;
+    this.mirror.update(dt);
   }
 }
