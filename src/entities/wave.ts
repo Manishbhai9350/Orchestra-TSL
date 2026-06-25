@@ -74,7 +74,7 @@ export class Wave {
     base.position.set(0,0,25)
     base.rotation.x = -Math.PI / 2;
 
-    this.scene.add(base);
+    // this.scene.add(base);
 
     const debug = new Mesh(
       new BoxGeometry(),
@@ -83,11 +83,11 @@ export class Wave {
 
     debug.position.set(0, 4, 40);
 
-    const point = new PointLight("orange", 500,30,2);
+    const point = new PointLight("orange", 50000,30,2);
 
     point.position.set(0, 7, 30);
 
-    this.scene.add(debug, point);
+    // this.scene.add(debug, point);
 
     this.spot = new SpotLight(0xffffff, 20, 2000, .1, 1, 0.3);
 
@@ -105,46 +105,45 @@ export class Wave {
   addDebug(){
     this.debug = Debug.getInstance();
 
-    this.debug.add({
-      folder:"Light",
-      object: this.spot,
-      key:'intensity',
-      options:{
-        min:0,
-        max:1000,
-        step:10
-      }
-    })
-
-    console.log(this.baseMat)
+    // this.debug.add({
+    //   folder:"Light",
+    //   object: this.spot,
+    //   key:'intensity',
+    //   options:{
+    //     min:0,
+    //     max:1000,
+    //     step:10
+    //   }
+    // })
 
 
-    this.debug.add({
-      folder:"Wave",
-      object: this.baseMat,
-      key:'roughness',
-      options:{
-        min:0,
-        max:1,
-        step:.001
-      }
-    })
-    this.debug.add({
-      folder:"Wave",
-      object: this.baseMat,
-      key:'metalness',
-      options:{
-        min:0,
-        max:1,
-        step:.001
-      }
-    })
+
+    // this.debug.add({
+    //   folder:"Wave",
+    //   object: this.baseMat,
+    //   key:'roughness',
+    //   options:{
+    //     min:0,
+    //     max:1,
+    //     step:.001
+    //   }
+    // })
+    // this.debug.add({
+    //   folder:"Wave",
+    //   object: this.baseMat,
+    //   key:'metalness',
+    //   options:{
+    //     min:0,
+    //     max:1,
+    //     step:.001
+    //   }
+    // })
 
 
   }
 
   update(dt: number) {
-    this.uniforms.uTime.value += dt;
+    // this.uniforms.uTime.value += dt;
     this.mirror.update(dt);
   }
 }
